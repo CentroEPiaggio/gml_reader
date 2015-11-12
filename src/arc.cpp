@@ -1,20 +1,20 @@
-#include "node.h"
-#include <fstream>
+#include "arc.h"
 #include <iostream>
-#include <algorithm>
 #include <sstream>
+#include <algorithm>
+#include <fstream>
 #include "utils.h"
 
 using namespace std;
 
-
-node::node()
+arc::arc()
 {
-	x=y=0;
+  len=1;
+  first=0;
+  second=0;
 }
 
-
-void node::readGraphics(ifstream* f)
+void arc::readLabelGraphics(std::ifstream* f)
 {
   char s[256];
   f->getline(s,256);
@@ -24,79 +24,19 @@ void node::readGraphics(ifstream* f)
   tmp.erase(remove(tmp.begin(), tmp.end(), '\t'),tmp.end());
   if (tmp.compare("[")==0) //deve esserci subito una quadra
   {
-    while(!f->eof()) //leggiamo le proprietà del nodo
-    {
-      f->getline(s,256);
-      tmp=s;
-      tmp.erase(remove(tmp.begin(), tmp.end(), ' '),tmp.end());
-      tmp.erase(remove(tmp.begin(), tmp.end(), '\t'),tmp.end());
-      if (tmp.find("x")==0)
-      {
-	stringstream in;
-	in<<tmp.substr(1,tmp.length()-1);
-	in>>x;
-// 	cout<<"coordinata x del nodo: "<<x<<endl;
-	continue;
-      }
-      if (tmp.find("y")==0)
-      {
-	stringstream in;
-	in<<tmp.substr(1,tmp.length()-1);
-	in>>y;
-// 	cout<<"coordinata y del nodo: "<<y<<endl;
-	continue;
-      }
-      if (tmp.find("[")==0)
-      {
-	utils::skipSection(f);
-	continue;
-      }
-      if (tmp.find("]")==0)
-      {
-	 break;
-      }
-    }
-  }
-  else
-    cerr<<"attenzione, non trovata parentesi di apertura della sezione graphics"<<endl;
-}
-
-
-
-void node::readNode(ifstream* f)
-{
-  char s[256];
-  f->getline(s,256);
-  string tmp=s;
-  tmp.erase(remove(tmp.begin(), tmp.end(), ' '),tmp.end());
-  tmp.erase(remove(tmp.begin(), tmp.end(), '\t'),tmp.end());
-  if (tmp.compare("[")==0) //deve esserci subito una quadra
-  {
-    while(!f->eof()) //leggiamo le proprietà del nodo
+    while(!f->eof()) 
     {
       f->getline(s,256);
       tmp=s;
       tmp.erase(remove(tmp.begin(), tmp.end(), ' '),tmp.end());
       tmp.erase(remove(tmp.begin(), tmp.end(), '\t'),tmp.end());
 
-      if (tmp.find("id")==0)
+      if (tmp.find("text\"")==0)
       {
-	name=tmp.substr(2,tmp.length()-2);
-// 	cout<<"identificativo del nodo: "<<name<<endl;
-	continue;
-      }
-      if (tmp.find("label")==0)
-	  {
-		  label=tmp.substr(6,tmp.length()-7);
-			if (name.compare(label)!=0)
-			{
-					cout<<"ATTENZIONE, rilevato un nodo con id diverso dal label, potrebbero succedere danni, nome:"<<name<<" label:"<<label<<endl;
-			}
-		  continue;
-	  }
-      if (tmp.compare("graphics")==0)
-      {
-	readGraphics(f);
+	stringstream in;
+	in<<tmp.substr(5,tmp.length()-5);
+	in>>len;
+// 	cout<<"lunghezza dell'arco: "<<len<<endl;
 	continue;
       }
      
@@ -112,16 +52,74 @@ void node::readNode(ifstream* f)
     }
   }
   else
-    cerr<<"attenzione, impossibile trovare la quadra di apertura del nodo"<<endl;
+    cerr<<"attenzione, impossibile trovare la quadra di apertura della grafica dell'arco"<<endl;
 }
 
 
-ostream &operator<<( ostream &out, const node &n ){
-  out<<n.name<<"\t"<<n.x<<"\t"<<n.y;
+void arc::readArc(ifstream* f)
+{
+  char s[256];
+  f->getline(s,256);
+  string tmp;
+  tmp=s;
+  tmp.erase(remove(tmp.begin(), tmp.end(), ' '),tmp.end());
+  tmp.erase(remove(tmp.begin(), tmp.end(), '\t'),tmp.end());
+  if (tmp.compare("[")==0) //deve esserci subito una quadra
+  {
+    while(!f->eof()) //leggiamo le proprietà del nodo
+    {
+      f->getline(s,256);
+      tmp=s;
+      tmp.erase(remove(tmp.begin(), tmp.end(), ' '),tmp.end());
+      tmp.erase(remove(tmp.begin(), tmp.end(), '\t'),tmp.end());
+
+      if (tmp.find("source")==0)
+      {
+	stringstream in;
+	in<<tmp.substr(6,tmp.length()-6);
+	in>>first;
+// 	cout<<"primo nodo dell'arco: "<<first<<endl;
+	continue;
+      }
+      if (tmp.find("target")==0)
+      {
+	stringstream in;
+	in<<tmp.substr(6,tmp.length()-6);
+	in>>second;
+// 	cout<<"secondo nodo dell'arco: "<<second<<endl;
+	continue;
+      }
+      if (tmp.compare("LabelGraphics")==0)
+      {
+	readLabelGraphics(f);
+	continue;
+      }
+     
+      if (tmp.find("[")==0)
+      {
+	utils::skipSection(f);
+	continue;
+      }
+      if (tmp.find("]")==0)
+      {
+	break;
+      }
+    }
+  }
+  else
+    cerr<<"attenzione, impossibile trovare la quadra di apertura dell'arco"<<endl;
+}
+
+
+ostream &operator<<( ostream &out, const arc &a )
+{
+  out<<a.first<<"\t"<<a.second<<"\t"<<a.name<<"\t"<<a.len;
   return out;
 }
 
-node::~node()
+
+
+arc::~arc()
 {
 
 }

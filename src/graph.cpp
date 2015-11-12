@@ -42,6 +42,7 @@ void graph::readGraph(ifstream* f)
 	s<<numArc;
 	numArc++;
 	a.name=s.str();
+        a.index=numArc;
 	arcs.push_back(a);
 	continue;
       }

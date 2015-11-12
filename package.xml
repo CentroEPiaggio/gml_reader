@@ -1,0 +1,18 @@
+<package>
+  <name>gmlreader</name>
+  <version>0.8.4</version>
+  <description>
+	Lemon GML input/output
+  </description>
+  <maintainer email="mirko.ferrati@gmail.com">Mirko Ferrati</maintainer>
+  <license>BSD</license>
+
+  <author>Mirko Ferrati</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>lemon_ros</build_depend>
+  <run_depend>lemon_ros</run_depend>
+  <run_depend>roscpp</run_depend>
+</package>

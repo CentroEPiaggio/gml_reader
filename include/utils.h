@@ -5,16 +5,16 @@
 #include <algorithm>
 #include <iostream>
 
-using namespace std;
+// using namespace std;
 
 class utils
 {
 public:
-  static void skipSection(ifstream *f)
+  static void skipSection(std::ifstream *f)
   {
     char s[256];
     f->getline(s,256);
-    string tmp;
+    std::string tmp;
     tmp=s;
     tmp.erase(remove(tmp.begin(), tmp.end(), ' '),tmp.end());
     tmp.erase(remove(tmp.begin(), tmp.end(), '\t'),tmp.end());
