@@ -21,6 +21,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   lemon_ros
+  graph_msgs
 )
 
 # add_message_files(

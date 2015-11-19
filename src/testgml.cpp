@@ -3,6 +3,8 @@
 #include <lemon/smart_graph.h>
 #include <lemon/graph_to_eps.h>
 #include <gmlreader/gmlreader.hpp>
+#include <graph_msgs/GeometryGraph.h>
+#include <ros/ros.h>
 
 using namespace std;
 
@@ -21,6 +23,8 @@ int main(int argc, char **argv) {
     
     f.open(filename.c_str(),ios::in);
     
+    ros::init(argc,argv,"testgml");
+    ros::NodeHandle n;
     gmlreader reader;
     reader.read(&f,g);
     reader.getCoordx(a);
@@ -29,6 +33,10 @@ int main(int argc, char **argv) {
     
     f.close();
 
+    graph_msgs::GeometryGraph g_msg;
+    
+    std::map<int,int> nodes_id_to_index;
+    
     lemon::SmartDigraph::NodeMap<lemon::dim2::Point<int>> coords(g);
     lemon::SmartDigraph::NodeMap<int> id(g);
     for (lemon::SmartDigraph::NodeIt n(g);n!=lemon::INVALID;++n)
@@ -36,7 +44,30 @@ int main(int argc, char **argv) {
         coords[n].x=a[n];
         coords[n].y=b[n];
         id[n]=g.id(n);
+        geometry_msgs::Point p;
+        graph_msgs::Edges empty_edge;
+        p.x=1.0/100.0*double(a[n]);
+        p.y=1.0/100.0*double(b[n]);
+        p.z=id[n];
+        g_msg.nodes.push_back(p);
+        g_msg.edges.push_back(empty_edge);
+        nodes_id_to_index[id[n]]=g_msg.nodes.size()-1;
     }
+    
+    for (int i=0;i<g_msg.nodes.size();i++)
+    {
+        std::vector<uint32_t> edges;
+        for ( lemon::SmartDigraph::OutArcIt arcit( g,g.nodeFromId(int(g_msg.nodes[i].z)) ); arcit!=lemon::INVALID; ++arcit )
+        {
+            edges.push_back(nodes_id_to_index[g.id(g.target(arcit))]);
+        }
+        g_msg.edges[i].node_ids=edges;
+    }    
+    
+    ros::Publisher pub = n.advertise<graph_msgs::GeometryGraph>("graph_to_rviz",1);
+    ros::AsyncSpinner as(1);as.start();
+    sleep(1);
+    pub.publish(g_msg);
     
     lemon::graphToEps<lemon::SmartDigraph> ( g,"image.eps" ).
     coords ( coords ).
