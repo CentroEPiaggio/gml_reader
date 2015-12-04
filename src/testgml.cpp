@@ -5,8 +5,10 @@
 #include <gmlreader/gmlreader.hpp>
 #include <graph_msgs/GeometryGraph.h>
 #include <ros/ros.h>
+// #include <rviz_visual_tools/rviz_visual_tools.h>
 
 using namespace std;
+#define SCALE 0.05 //TODO ros param
 
 int main(int argc, char **argv) {
     lemon::SmartDigraph g;
@@ -46,8 +48,8 @@ int main(int argc, char **argv) {
         id[n]=g.id(n);
         geometry_msgs::Point p;
         graph_msgs::Edges empty_edge;
-        p.x=1.0/100.0*double(a[n]);
-        p.y=1.0/100.0*double(b[n]);
+        p.x=SCALE*double(a[n]);
+        p.y=SCALE*double(b[n]);
         p.z=id[n];
         g_msg.nodes.push_back(p);
         g_msg.edges.push_back(empty_edge);
@@ -63,12 +65,19 @@ int main(int argc, char **argv) {
         }
         g_msg.edges[i].node_ids=edges;
     }    
-    
+        
     ros::Publisher pub = n.advertise<graph_msgs::GeometryGraph>("graph_to_rviz",1);
     ros::AsyncSpinner as(1);as.start();
-    sleep(1);
+    while(ros::ok())
+    {
+        sleep(1);
     pub.publish(g_msg);
-    
+}
+//     for (auto& p:g_msg.nodes)
+//         p.z=0;
+//     rviz_visual_tools::RvizVisualTools tools("map","graph_markers");
+//     tools.publishGraph(g_msg,rviz_visual_tools::GREY,0.2);
+//     sleep(1);
     lemon::graphToEps<lemon::SmartDigraph> ( g,"image.eps" ).
     coords ( coords ).
     nodeTexts ( id ).
