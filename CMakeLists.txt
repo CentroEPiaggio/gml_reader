@@ -22,7 +22,11 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   lemon_ros
   graph_msgs
+#   rviz_visual_tools
+#   eigen_conversions
 )
+
+# find_package(Eigen3 REQUIRED)
 
 # add_message_files(
 #   FILES
