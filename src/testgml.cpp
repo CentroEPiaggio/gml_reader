@@ -4,6 +4,9 @@
 #include <lemon/graph_to_eps.h>
 #include <lemon/lgf_reader.h>
 #include <gmlreader/gmlreader.hpp>
+#include <gmlreader/lemon_wrapper.hpp>
+#include <gmlreader/gmlwriter.hpp>
+#include <gmlreader/graphmsgs_wrapper.hpp>
 #include <graph_msgs/GeometryGraph.h>
 #include <ros/ros.h>
 #include <ros/package.h>
@@ -54,8 +57,35 @@ int main(int argc, char **argv) {
         reader.getArcLength(c);
         f.close();
     }
-    graph_msgs::GeometryGraph g_msg;
     
+    if (graphName.rfind(".gml")==graphName.length()-4)
+    {
+        ifstream f;
+        f.open((path+"/"+graphName).c_str(),ios::in);
+        if (f.fail()) abort();
+        gmlreader reader;
+        reader.read(f);
+        f.close();
+        
+        ofstream fo;
+        fo.open((path+"/out"+graphName).c_str(),ios::out);
+        if (fo.fail()) abort();
+        gmlwriter writer(reader.getGraph());        
+        writer.write(fo);
+        fo.close();
+        
+        graph_msgs::GeometryGraph g_msg;
+        graphmsgs_gml ros_reader;
+        ros_reader.convert(reader.getGraph(),g_msg,scale);
+        
+        ifstream f;
+        f.open((path+"/"+graphName).c_str(),ios::in);
+        ros_reader.read(f,g_msg);
+        f.close();
+    }
+    
+    
+    graph_msgs::GeometryGraph g_msg;
     std::map<int,int> nodes_id_to_index;
     
     lemon::SmartDigraph::NodeMap<lemon::dim2::Point<int>> coords(g);

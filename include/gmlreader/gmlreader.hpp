@@ -3,14 +3,10 @@
 #include "graph.h"
 #include <fstream>
 #include <map>
-#include <lemon/smart_graph.h>
 
 class gmlreader
 {
     gml_utils::graph g;
-    lemon::SmartDigraph* graph_p;
-    std::map<int,int> node_to_lemonId;
-    std::map<int,int> arc_to_lemonId;
 public:
     gmlreader()
     {
@@ -30,66 +26,12 @@ public:
                 g.readGraph(f);
             }
         }
-        //convert g to lemon graph
-        for (auto node : g.nodes)
-        {
-            auto n = graph.addNode();
-            node_to_lemonId[node.index]=graph.id(n);
-        }
-        for (auto arc: g.arcs )
-        {
-            auto a = graph.addArc(graph.nodeFromId(node_to_lemonId[arc.first]),graph.nodeFromId(node_to_lemonId[arc.second]));
-            arc_to_lemonId[arc.index]=graph.id(a);
-        }
-        return *this;
     }
     
-    const gmlreader& getCoordx(lemon::SmartDigraph::NodeMap<int>& map)
+    gml_utils::graph getGraph()
     {
-        for (auto node : g.nodes)
-        {
-            map[graph_p->nodeFromId(node_to_lemonId[node.index])]=node.x;
-        }
+        return g;
     }
-
-    const gmlreader& getCoordx(lemon::SmartDigraph::NodeMap<double>& map)
-    {
-        for (auto node : g.nodes)
-        {
-            map[graph_p->nodeFromId(node_to_lemonId[node.index])]=node.x;
-        }
-    }
-    
-    const gmlreader& getCoordy(lemon::SmartDigraph::NodeMap<int>& map)
-    {
-        for (auto node : g.nodes)
-        {
-            map[graph_p->nodeFromId(node_to_lemonId[node.index])]=node.y;
-        }
-    }
-    
-    const gmlreader& getCoordy(lemon::SmartDigraph::NodeMap<double>& map)
-    {
-        for (auto node : g.nodes)
-        {
-            map[graph_p->nodeFromId(node_to_lemonId[node.index])]=node.y;
-        }
-    }
-    const gmlreader& getArcLength(lemon::SmartDigraph::ArcMap<int>& map)
-    {
-        for (auto arc: g.arcs )
-        {
-            map[graph_p->arcFromId(node_to_lemonId[arc.index])]=arc.len;
-        }
-    }
-    const gmlreader& getArcLength(lemon::SmartDigraph::ArcMap<double>& map)
-    {
-        for (auto arc: g.arcs )
-        {
-            map[graph_p->arcFromId(node_to_lemonId[arc.index])]=arc.len;
-        }
-    }
-    
 };
       
 #endif
