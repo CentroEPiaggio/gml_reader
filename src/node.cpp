@@ -122,6 +122,44 @@ ostream &operator<<( ostream &out, const node &n ){
 }
 }
 
+void node::write(ofstream& f)
+{
+//     node
+//     [
+//     id      12
+//     label   "13"
+//     graphics
+//     [
+//     x       242.0
+//     y       561.0
+//     ]
+//     LabelGraphics
+//     [
+//     text    "13"
+//     ]
+//     ]
+    f<<"node"<<std::endl;
+    f<<"["<<std::endl;
+    {
+        f<<"id    "<<index<<std::endl;
+        f<<"label    "<<index<<std::endl;
+        f<<"graphics"<<std::endl;
+        f<<"["<<std::endl;
+        {                
+            f<<"x    "<<x<<std::endl;
+            f<<"y    "<<y<<std::endl;
+        }
+        f<<"]"<<std::endl;
+        f<<"LabelGraphics"<<std::endl;
+        f<<"["<<std::endl;
+        {
+            f<<"text    "<<index<<std::endl;
+        }
+        f<<"]"<<std::endl;
+    }
+    f<<"]"<<std::endl;
+}
+
 
 node::~node()
 {

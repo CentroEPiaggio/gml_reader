@@ -120,6 +120,33 @@ ostream &operator<<( ostream &out, const arc &a )
 }
 }
 
+void arc::write(ofstream& f)
+{
+//     edge
+//     [
+//     source  10
+//     target  11
+//     graphics
+//     [
+//     fill    "#000000"
+//     targetArrow     "standard"
+//     ]
+//     ]
+    f<<"edge"<<std::endl;
+    f<<"["<<std::endl;
+    {
+        f<<"source    "<<first<<std::endl;
+        f<<"target    "<<second<<std::endl;
+        f<<"graphics"<<std::endl;
+        f<<"["<<std::endl;
+        {                
+            f<<"fill    \"#000000\""<<std::endl;
+            f<<"targetArrow     \"standard\""<<std::endl;
+        }
+        f<<"]"<<std::endl;
+    }
+    f<<"]"<<std::endl;
+}
 
 
 arc::~arc()
