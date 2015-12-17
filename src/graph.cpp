@@ -14,31 +14,31 @@ graph::graph()
 }
 
 
-void graph::readGraph(ifstream* f)
+void graph::readGraph(ifstream& f)
 {
   char s[256];
-  f->getline(s,256);
+  f.getline(s,256);
   string tmp=s;
   if (tmp.compare("[")==0) //deve esserci subito una quadra
   {
 	int numArc=0;
-    while(!f->eof()) //leggiamo i nodi e gli archi
+    while(!f.eof()) //leggiamo i nodi e gli archi
     {
-      f->getline(s,256);
+      f.getline(s,256);
       tmp=s;
       tmp.erase(remove(tmp.begin(), tmp.end(), ' '),tmp.end());
       tmp.erase(remove(tmp.begin(), tmp.end(), '\t'),tmp.end());
       if (tmp.compare("node")==0)
       {
 	 node n;
-	 n.readNode(f);
+	 n.read(f);
 	 nodes.push_back(n);
 	 continue;
       }
       if (tmp.compare("edge")==0)
       {
 	arc a;
-	a.readArc(f);
+	a.read(f);
 	stringstream s;
 	s<<numArc;
 	numArc++;

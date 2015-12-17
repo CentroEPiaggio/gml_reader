@@ -17,14 +17,13 @@ public:
 
     };
 
-    const gmlreader& read(std::ifstream* f,lemon::SmartDigraph& graph)
+    void read(std::ifstream& f)
     {
-        graph_p=&graph;
         std::string tmp;
         char s[256];
-        while (!f->eof())
+        while (!f.eof())
         {
-            f->getline(s,256);
+            f.getline(s,256);
             tmp=s;
             if (tmp.compare("graph")==0) //inizia il testo interessante
             {

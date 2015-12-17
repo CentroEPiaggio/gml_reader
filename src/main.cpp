@@ -5,14 +5,14 @@ using namespace std;
 
 using namespace gml_utils;
 
-void read(std::ifstream* f,graph& g)
+void read(std::ifstream& f,graph& g)
 {
     std::string tmp;
     char s[256];
     
-    while (!f->eof())
+    while (!f.eof())
     {
-        f->getline(s,256);
+        f.getline(s,256);
         tmp=s;
         if (tmp.compare("graph")==0) //inizia il testo interessante
         {
@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
     cout<<filename<<endl;
     
     f.open(filename.c_str(),ios::in);
-    read(&f,g);
+    read(f,g);
     
     f.close();
     ofstream fo;

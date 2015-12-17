@@ -11,8 +11,7 @@ class node
 {
   
     std::string label;
-    void readGraphics( std::ifstream* f );
-    void readTextGraphics(std::fstream* arg1);
+    void readGraphics( std::ifstream& f );
 
 public:
     double x,y;
@@ -23,9 +22,8 @@ public:
   
     
     friend std::ostream &operator<<( std::ostream &out, const node &n );
-    void readNode( std::ifstream* f );
-    
+    void read( std::ifstream& f );
+    void write(std::ofstream& f);
 };
 }
-
 #endif // NODE_H

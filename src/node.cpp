@@ -15,19 +15,19 @@ node::node()
 }
 
 
-void node::readGraphics(ifstream* f)
+void node::readGraphics(ifstream& f)
 {
     char s[256];
-    f->getline(s,256);
+    f.getline(s,256);
     string tmp;
     tmp=s;
     tmp.erase(remove(tmp.begin(), tmp.end(), ' '),tmp.end());
     tmp.erase(remove(tmp.begin(), tmp.end(), '\t'),tmp.end());
     if (tmp.compare("[")==0) //deve esserci subito una quadra
     {
-        while(!f->eof()) //leggiamo le proprietà del nodo
+        while(!f.eof()) //leggiamo le proprietà del nodo
         {
-            f->getline(s,256);
+            f.getline(s,256);
             tmp=s;
             tmp.erase(remove(tmp.begin(), tmp.end(), ' '),tmp.end());
             tmp.erase(remove(tmp.begin(), tmp.end(), '\t'),tmp.end());
@@ -57,23 +57,23 @@ void node::readGraphics(ifstream* f)
         }
     }
     else
-        cerr<<"attenzione, non trovata parentesi di apertura della sezione graphics"<<endl;
+        cerr<<"error, could not find section graphics (missing \"[\" )"<<endl;
 }
 
 
 
-void node::readNode(ifstream* f)
+void node::read(ifstream& f)
 {
     char s[256];
-    f->getline(s,256);
+    f.getline(s,256);
     string tmp=s;
     tmp.erase(remove(tmp.begin(), tmp.end(), ' '),tmp.end());
     tmp.erase(remove(tmp.begin(), tmp.end(), '\t'),tmp.end());
     if (tmp.compare("[")==0) //deve esserci subito una quadra
     {
-        while(!f->eof()) //leggiamo le proprietà del nodo
+        while(!f.eof()) //leggiamo le proprietà del nodo
         {
-            f->getline(s,256);
+            f.getline(s,256);
             tmp=s;
             tmp.erase(remove(tmp.begin(), tmp.end(), ' '),tmp.end());
             tmp.erase(remove(tmp.begin(), tmp.end(), '\t'),tmp.end());
@@ -116,7 +116,6 @@ void node::readNode(ifstream* f)
 
 namespace gml_utils{
     
-
 ostream &operator<<( ostream &out, const node &n ){
   out<<n.name<<"\t"<<n.x<<"\t"<<n.y;
   return out;

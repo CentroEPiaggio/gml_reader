@@ -15,19 +15,19 @@ arc::arc()
   second=0;
 }
 
-void arc::readLabelGraphics(std::ifstream* f)
+void arc::readLabelGraphics(std::ifstream& f)
 {
   char s[256];
-  f->getline(s,256);
+  f.getline(s,256);
   string tmp;
   tmp=s;
   tmp.erase(remove(tmp.begin(), tmp.end(), ' '),tmp.end());
   tmp.erase(remove(tmp.begin(), tmp.end(), '\t'),tmp.end());
   if (tmp.compare("[")==0) //deve esserci subito una quadra
   {
-    while(!f->eof()) 
+    while(!f.eof()) 
     {
-      f->getline(s,256);
+      f.getline(s,256);
       tmp=s;
       tmp.erase(remove(tmp.begin(), tmp.end(), ' '),tmp.end());
       tmp.erase(remove(tmp.begin(), tmp.end(), '\t'),tmp.end());
@@ -57,19 +57,19 @@ void arc::readLabelGraphics(std::ifstream* f)
 }
 
 
-void arc::readArc(ifstream* f)
+void arc::read(ifstream& f)
 {
   char s[256];
-  f->getline(s,256);
+  f.getline(s,256);
   string tmp;
   tmp=s;
   tmp.erase(remove(tmp.begin(), tmp.end(), ' '),tmp.end());
   tmp.erase(remove(tmp.begin(), tmp.end(), '\t'),tmp.end());
   if (tmp.compare("[")==0) //deve esserci subito una quadra
   {
-    while(!f->eof()) //leggiamo le proprietà del nodo
+    while(!f.eof()) //leggiamo le proprietà del nodo
     {
-      f->getline(s,256);
+      f.getline(s,256);
       tmp=s;
       tmp.erase(remove(tmp.begin(), tmp.end(), ' '),tmp.end());
       tmp.erase(remove(tmp.begin(), tmp.end(), '\t'),tmp.end());

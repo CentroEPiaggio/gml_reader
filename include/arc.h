@@ -11,7 +11,7 @@ class arc
 {
 
   
-  void readLabelGraphics( std::ifstream* f );
+  void readLabelGraphics( std::ifstream& f );
   
   
 public:
@@ -25,8 +25,8 @@ public:
     virtual ~arc();
     
     friend std::ostream &operator<<( std::ostream &out, const arc &a );
-    void readArc(std::ifstream* arg1);
-
+    void read(std::ifstream& f);
+    void write(std::ofstream& f);
 };
 }
 #endif // ARC_H

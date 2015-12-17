@@ -47,8 +47,8 @@ int main(int argc, char **argv) {
         ifstream f;
         f.open((path+"/"+graphName).c_str(),ios::in);
         if (f.fail()) abort();
-        gmlreader reader;
-        reader.read(&f,g);
+        lemongmlreader reader;
+        reader.read(f,g);
         reader.getCoordx(a);
         reader.getCoordy(b);
         reader.getArcLength(c);

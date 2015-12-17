@@ -10,17 +10,17 @@
 class utils
 {
 public:
-  static void skipSection(std::ifstream *f)
+  static void skipSection(std::ifstream& f)
   {
     char s[256];
-    f->getline(s,256);
+    f.getline(s,256);
     std::string tmp;
     tmp=s;
     tmp.erase(remove(tmp.begin(), tmp.end(), ' '),tmp.end());
     tmp.erase(remove(tmp.begin(), tmp.end(), '\t'),tmp.end());
     while(tmp.empty() || tmp.at(0)!=']') 
 	{
-	  f->getline(s,256);
+	  f.getline(s,256);
 	  tmp=s;
 	  tmp.erase(remove(tmp.begin(), tmp.end(), ' '),tmp.end());
 	  tmp.erase(remove(tmp.begin(), tmp.end(), '\t'),tmp.end());
