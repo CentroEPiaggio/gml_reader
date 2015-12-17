@@ -21,12 +21,13 @@ find_package(catkin REQUIRED COMPONENTS
   roslib
   roscpp
   rospy
-  graph_msgs
 #   rviz_visual_tools
 #   eigen_conversions
 )
 
 find_package(catkin COMPONENTS lemon_ros QUIET)
+
+find_package(catkin COMPONENTS graph_msgs QUIET)
 
 # find_package(Eigen3 REQUIRED)
 
@@ -52,16 +53,11 @@ link_directories(${catkin_LIBRARY_DIRS})
 
 add_executable(gml_to_lgf src/utils.cpp src/main.cpp src/node.cpp src/graph.cpp src/arc.cpp)
 
-add_library(${PROJECT_NAME} SHARED src/utils.cpp src/node.cpp src/graph.cpp src/arc.cpp)
-
-target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
-target_link_libraries(gml_to_lgf ${catkin_LIBRARIES})
-
+list(APPEND MY_SRCS src/utils.cpp src/node.cpp src/graph.cpp src/arc.cpp)
 
 if(lemon_ros_FOUND)
-    add_executable(test_gml src/utils.cpp src/testgml.cpp src/node.cpp src/graph.cpp src/arc.cpp)
-    target_link_libraries(test_gml ${catkin_LIBRARIES} lemon)
-    MESSAGE("found lemon, linking additional executable")
+
+    MESSAGE("found lemon, linking additional wrapper")
 #    list(APPEND MY_SRCS src/optional_dep1_code.cpp)
 #    list(APPEND MY_LINK_INCLUDE_DIRS ${optional_dep1_INCLUDE_DIRS})
 #    list(APPEND MY_LINK_LIBRARIES ${optional_dep1_LIBRARIES})
@@ -70,6 +66,21 @@ if(lemon_ros_FOUND)
 endif()
 
 
+if(graph_msgs_FOUND)
+
+    MESSAGE("found lemon, linking additional wrapper")
+#    list(APPEND MY_SRCS src/optional_dep1_code.cpp)
+#    list(APPEND MY_LINK_INCLUDE_DIRS ${optional_dep1_INCLUDE_DIRS})
+#    list(APPEND MY_LINK_LIBRARIES ${optional_dep1_LIBRARIES})
+    # Anything else you need to do to enable use of the optional dep, like add definitions
+#    add_definitions("-DUSE_OPTIONAL_DEP1=1")
+endif()
+
+add_library(${PROJECT_NAME} SHARED ${MY_SRCS})
+
+
+target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
+target_link_libraries(gml_to_lgf ${catkin_LIBRARIES})
 
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
