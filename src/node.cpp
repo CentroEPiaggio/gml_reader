@@ -6,6 +6,7 @@
 #include "utils.h"
 
 using namespace std;
+using namespace gml_utils;
 
 
 node::node()
@@ -113,11 +114,15 @@ void node::readNode(ifstream* f)
         cerr<<"attenzione, impossibile trovare la quadra di apertura del nodo"<<endl;
 }
 
+namespace gml_utils{
+    
 
 ostream &operator<<( ostream &out, const node &n ){
   out<<n.name<<"\t"<<n.x<<"\t"<<n.y;
   return out;
 }
+}
+
 
 node::~node()
 {

@@ -3,6 +3,8 @@
 #include "graph.h"
 using namespace std;
 
+using namespace gml_utils;
+
 void read(std::ifstream* f,graph& g)
 {
     std::string tmp;

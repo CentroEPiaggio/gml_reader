@@ -4,6 +4,9 @@
 #include <string>
 #include <fstream>
 #include <ostream>
+
+namespace gml_utils
+{
 class node
 {
   
@@ -23,5 +26,6 @@ public:
     void readNode( std::ifstream* f );
     
 };
+}
 
 #endif // NODE_H

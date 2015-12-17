@@ -7,8 +7,8 @@
 
 class gmlreader
 {
+    gml_utils::graph g;
     lemon::SmartDigraph* graph_p;
-    graph g;
     std::map<int,int> node_to_lemonId;
     std::map<int,int> arc_to_lemonId;
 public:

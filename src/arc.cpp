@@ -6,6 +6,7 @@
 #include "utils.h"
 
 using namespace std;
+using namespace gml_utils;
 
 arc::arc()
 {
@@ -110,11 +111,13 @@ void arc::readArc(ifstream* f)
     cerr<<"attenzione, impossibile trovare la quadra di apertura dell'arco"<<endl;
 }
 
-
+namespace gml_utils{
+    
 ostream &operator<<( ostream &out, const arc &a )
 {
   out<<a.first<<"\t"<<a.second<<"\t"<<a.name<<"\t"<<a.len;
   return out;
+}
 }
 
 

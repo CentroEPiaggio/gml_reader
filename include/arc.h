@@ -5,7 +5,8 @@
 #include "node.h"
 #include <ostream>
 #include <fstream>
-
+namespace gml_utils
+{
 class arc
 {
 
@@ -27,5 +28,5 @@ public:
     void readArc(std::ifstream* arg1);
 
 };
-
+}
 #endif // ARC_H

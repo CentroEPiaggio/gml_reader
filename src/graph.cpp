@@ -6,6 +6,7 @@
 #include "utils.h"
 
 using namespace std;
+using namespace gml_utils;
 
 graph::graph()
 {
@@ -63,6 +64,8 @@ void graph::readGraph(ifstream* f)
   }
 }
 
+namespace gml_utils{
+
 ostream &operator<<( ostream &out, const graph &g ){
   out<<"@nodes"<<endl;
   out<<"label\tcoordinates_x\tcoordinates_y"<<endl;
@@ -73,6 +76,8 @@ ostream &operator<<( ostream &out, const graph &g ){
   for (unsigned int i=0;i<g.arcs.size();i++)
     out<<g.arcs[i]<<endl;
   return out;
+}
+
 }
 
 string graph::tolgf()

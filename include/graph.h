@@ -8,6 +8,9 @@
 #include <ostream>
 #include <map>
 
+namespace gml_utils
+{
+    
 class graph
 {
 public:
@@ -28,4 +31,5 @@ public:
 
 };
 
+}
 #endif // GRAPH_H
