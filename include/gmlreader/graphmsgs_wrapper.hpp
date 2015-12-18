@@ -31,9 +31,10 @@ public:
         }
     }
     
-    void read(std::ifstream& f,graph_msgs::GeometryGraph& gr,double scale=1)
+    bool read(std::ifstream& f,graph_msgs::GeometryGraph& gr,double scale=1)
     {
-        reader.read(f);
+        bool graph_read = reader.read(f);
+        if (!graph_read) return false;
         gml_utils::graph g=reader.getGraph();
         //convert g to lemon graph
 	int i=0;
@@ -50,6 +51,7 @@ public:
         {
             gr.edges[id_to_index[arc.first]].node_ids.push_back(id_to_index[arc.second]);
         }
+        return true;
     }
     
 };

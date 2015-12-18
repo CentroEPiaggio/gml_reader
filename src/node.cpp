@@ -15,7 +15,7 @@ node::node()
 }
 
 
-void node::readGraphics(ifstream& f)
+bool node::readGraphics(ifstream& f)
 {
     char s[256];
     f.getline(s,256);
@@ -57,12 +57,16 @@ void node::readGraphics(ifstream& f)
         }
     }
     else
+    {
         cerr<<"error, could not find section graphics (missing \"[\" )"<<endl;
+        return false;
+    }
+    return true;
 }
 
 
 
-void node::read(ifstream& f)
+bool node::read(ifstream& f)
 {
     char s[256];
     f.getline(s,256);
@@ -89,7 +93,7 @@ void node::read(ifstream& f)
                 label=tmp.substr(6,tmp.length()-7);
                 if (name.compare(label)!=0)
                 {
-                    cout<<"ATTENZIONE, rilevato un nodo con id diverso dal label, potrebbero succedere danni, nome:"<<name<<" label:"<<label<<endl;
+                    //cout<<"ATTENZIONE, rilevato un nodo con id diverso dal label, potrebbero succedere danni, nome:"<<name<<" label:"<<label<<endl;
                 }
                 continue;
             }
@@ -111,7 +115,11 @@ void node::read(ifstream& f)
         }
     }
     else
-        cerr<<"attenzione, impossibile trovare la quadra di apertura del nodo"<<endl;
+    {
+        cerr<<"error, could not find section graphics (missing \"[\" )"<<endl;
+        return false;
+    }
+    return true;
 }
 
 namespace gml_utils{

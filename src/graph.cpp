@@ -14,15 +14,15 @@ graph::graph()
 }
 
 
-void graph::readGraph(ifstream& f)
+bool graph::readGraph(ifstream& f)
 {
   char s[256];
   f.getline(s,256);
   string tmp=s;
-  if (tmp.compare("[")==0) //deve esserci subito una quadra
+  if (tmp.compare("[")==0)
   {
-	int numArc=0;
-    while(!f.eof()) //leggiamo i nodi e gli archi
+    int numArc=0;
+    while(!f.eof())
     {
       f.getline(s,256);
       tmp=s;
@@ -31,9 +31,11 @@ void graph::readGraph(ifstream& f)
       if (tmp.compare("node")==0)
       {
 	 node n;
-	 n.read(f);
-	 nodes.push_back(n);
-	 continue;
+	 if (n.read(f))
+         {
+            nodes.push_back(n);
+            continue;
+         }
       }
       if (tmp.compare("edge")==0)
       {
@@ -60,8 +62,10 @@ void graph::readGraph(ifstream& f)
   }
   else
   {
-  cerr<<"impossibile trovare la [ di apertura del graph"<<endl;
-  }
+      cerr<<"error, could not find section graphics (missing \"[\" )"<<endl;
+      return false;
+  } 
+  return true;
 }
 
 namespace gml_utils{

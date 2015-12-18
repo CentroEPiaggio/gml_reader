@@ -3,6 +3,7 @@
 #include "graph.h"
 #include <fstream>
 #include <map>
+#include <iostream>
 
 class gmlreader
 {
@@ -13,19 +14,22 @@ public:
 
     };
 
-    void read(std::ifstream& f)
+    bool read(std::ifstream& f)
     {
         std::string tmp;
+        bool graph_read=false;
         char s[256];
-        while (!f.eof())
+        while (!(f.eof() || f.bad() || f.fail()))
         {
             f.getline(s,256);
             tmp=s;
-            if (tmp.compare("graph")==0) //inizia il testo interessante
+            if (tmp.compare("graph")==0)
             {
-                g.readGraph(f);
+                graph_read = g.readGraph(f);
+                std::cout<<graph_read<<std::endl;
             }
         }
+        return graph_read;
     }
     
     gml_utils::graph getGraph()

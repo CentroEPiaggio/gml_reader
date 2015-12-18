@@ -25,7 +25,7 @@ public:
 
 
     friend std::ostream &operator<<( std::ostream &out, const graph &g );
-    void readGraph(std::ifstream& f);
+    bool readGraph(std::ifstream& f);
 
     std::string tolgf();
 
