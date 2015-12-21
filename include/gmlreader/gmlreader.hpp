@@ -7,14 +7,13 @@
 
 class gmlreader
 {
-    gml_utils::graph g;
 public:
     gmlreader()
     {
 
     };
 
-    bool read(std::ifstream& f)
+    bool read(std::ifstream& f, gml_utils::graph& g)
     {
         std::string tmp;
         bool graph_read=false;
@@ -31,11 +30,7 @@ public:
         }
         return graph_read;
     }
-    
-    gml_utils::graph getGraph()
-    {
-        return g;
-    }
+
 };
       
 #endif

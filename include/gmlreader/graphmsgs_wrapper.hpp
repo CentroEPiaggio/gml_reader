@@ -33,9 +33,9 @@ public:
     
     bool read(std::ifstream& f,graph_msgs::GeometryGraph& gr,double scale=1)
     {
-        bool graph_read = reader.read(f);
+        gml_utils::graph g;
+        bool graph_read = reader.read(f,g);
         if (!graph_read) return false;
-        gml_utils::graph g=reader.getGraph();
         //convert g to lemon graph
 	int i=0;
         for (auto node : g.nodes)
