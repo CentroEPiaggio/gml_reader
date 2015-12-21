@@ -26,7 +26,7 @@ public:
             if (tmp.compare("graph")==0)
             {
                 graph_read = g.readGraph(f);
-                std::cout<<graph_read<<std::endl;
+//                 std::cout<<graph_read<<std::endl;
             }
         }
         return graph_read;
