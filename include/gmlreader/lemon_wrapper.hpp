@@ -82,8 +82,7 @@ public:
     void read(std::ifstream& f,lemon::SmartDigraph& graph)
     {
         graph_p=&graph;
-        reader.read(f);
-        g=reader.getGraph();
+        reader.read(f,g);
         //convert g to lemon graph
         for (auto node : g.nodes)
         {
