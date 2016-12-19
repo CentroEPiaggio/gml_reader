@@ -55,26 +55,25 @@ add_executable(gml_to_lgf src/utils.cpp src/main.cpp src/node.cpp src/graph.cpp 
 
 list(APPEND MY_SRCS src/utils.cpp src/node.cpp src/graph.cpp src/arc.cpp)
 
-if(lemon_ros_FOUND)
-
-    MESSAGE("found lemon, linking additional wrapper")
+# if(lemon_ros_FOUND)
+# 
+#    MESSAGE("found lemon, linking additional wrapper")
 #    list(APPEND MY_SRCS src/optional_dep1_code.cpp)
 #    list(APPEND MY_LINK_INCLUDE_DIRS ${optional_dep1_INCLUDE_DIRS})
 #    list(APPEND MY_LINK_LIBRARIES ${optional_dep1_LIBRARIES})
     # Anything else you need to do to enable use of the optional dep, like add definitions
 #    add_definitions("-DUSE_OPTIONAL_DEP1=1")
-endif()
+# endif()
 
-
-if(graph_msgs_FOUND)
-
-    MESSAGE("found lemon, linking additional wrapper")
+# if(graph_msgs_FOUND)
+# 
+#    MESSAGE("found graph_msgs, linking additional wrapper")
 #    list(APPEND MY_SRCS src/optional_dep1_code.cpp)
 #    list(APPEND MY_LINK_INCLUDE_DIRS ${optional_dep1_INCLUDE_DIRS})
 #    list(APPEND MY_LINK_LIBRARIES ${optional_dep1_LIBRARIES})
     # Anything else you need to do to enable use of the optional dep, like add definitions
 #    add_definitions("-DUSE_OPTIONAL_DEP1=1")
-endif()
+# endif()
 
 add_library(${PROJECT_NAME} SHARED ${MY_SRCS})
 
